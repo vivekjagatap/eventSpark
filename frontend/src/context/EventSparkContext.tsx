@@ -4,6 +4,7 @@ import { Event, Registration, User, PromoCode } from '../types';
 interface EventSparkContextType {
   events: Event[];
   registrations: Registration[];
+  promoCodes: PromoCode[];
   currentUser: User | null;
   isLightMode: boolean;
   fetchEvents: () => void;
@@ -17,6 +18,10 @@ interface EventSparkContextType {
   switchRole: (role: 'attendee' | 'organizer' | 'admin') => void;
   logout: () => void;
   toggleTheme: () => void;
+  addEvent: (event: any) => void;
+  deleteEvent: (eventId: string) => void;
+  createPromo: (promo: any) => void;
+  toggleCheckIn: (registrationId: string) => void;
 }
 
 const EventSparkContext = createContext<EventSparkContextType | undefined>(undefined);
@@ -24,6 +29,7 @@ const EventSparkContext = createContext<EventSparkContextType | undefined>(undef
 export const EventSparkProvider = ({ children }: { children: ReactNode }) => {
   const [events, setEvents] = useState<Event[]>([]);
   const [registrations, setRegistrations] = useState<Registration[]>([]);
+  const [promoCodes, setPromoCodes] = useState<PromoCode[]>([]);
   const [currentUser, setCurrentUser] = useState<User | null>({
     _id: 'mock-user-1',
     name: 'Guest Attendee',
@@ -48,12 +54,18 @@ export const EventSparkProvider = ({ children }: { children: ReactNode }) => {
   };
   const logout = () => setCurrentUser(null);
   const toggleTheme = () => setIsLightMode(!isLightMode);
+  
+  const addEvent = () => {};
+  const deleteEvent = () => {};
+  const createPromo = () => {};
+  const toggleCheckIn = () => {};
 
   return (
     <EventSparkContext.Provider value={{
-      events, registrations, currentUser, isLightMode,
+      events, registrations, promoCodes, currentUser, isLightMode,
       fetchEvents, getEventById, bookTickets, validatePromo, showToast,
-      getOrganizerStats, cancelBooking, addReview, switchRole, logout, toggleTheme
+      getOrganizerStats, cancelBooking, addReview, switchRole, logout, toggleTheme,
+      addEvent, deleteEvent, createPromo, toggleCheckIn
     }}>
       {children}
     </EventSparkContext.Provider>
