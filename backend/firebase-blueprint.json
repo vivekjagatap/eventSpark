@@ -1,0 +1,131 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "Individual account profiles containing roles, contact information, and organizer business details.",
+      "type": "object",
+      "properties": {
+        "_id": { "type": "string", "description": "Unique identifier of the user (matching Firebase Auth uid)." },
+        "name": { "type": "string", "description": "Full name of the individual." },
+        "email": { "type": "string", "format": "email", "description": "Official email address." },
+        "phone": { "type": "string", "description": "Indian mobile number link." },
+        "role": { "type": "string", "enum": ["attendee", "organizer", "admin"], "description": "Platform role governing access scopes." },
+        "avatar": { "type": "string", "description": "Cover url representing avatar image." },
+        "bio": { "type": "string", "description": "Short description of experiences or planning resume." },
+        "company": { "type": "string", "description": "Business or organizing brand name." },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["_id", "name", "email", "role"]
+    },
+    "Event": {
+      "title": "Event Definition",
+      "description": "Comprehensive document encapsulating venue addresses, cover images, schedules, custom speaker panels, and booking slot prices.",
+      "type": "object",
+      "properties": {
+        "_id": { "type": "string" },
+        "organizerId": { "type": "string" },
+        "organizerName": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "category": { "type": "string" },
+        "type": { "type": "string", "enum": ["online", "offline", "hybrid"] },
+        "coverImage": { "type": "string" },
+        "tags": { "type": "array" },
+        "startDate": { "type": "string" },
+        "endDate": { "type": "string" },
+        "startTime": { "type": "string" },
+        "endTime": { "type": "string" },
+        "venue": { "type": "object" },
+        "onlineLink": { "type": "string" },
+        "speakers": { "type": "array" },
+        "schedule": { "type": "array" },
+        "faqs": { "type": "array" },
+        "tickets": { "type": "array" },
+        "totalCapacity": { "type": "integer" },
+        "totalRegistrations": { "type": "integer" },
+        "status": { "type": "string", "enum": ["draft", "published", "cancelled", "completed"] },
+        "isFeatured": { "type": "boolean" },
+        "refundPolicy": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["_id", "organizerId", "title", "category", "type", "tickets", "status"]
+    },
+    "Registration": {
+      "title": "Booking Details",
+      "description": "Secure record of ticket purchase, payment reference codes, individual attendee names, and entrance gate status.",
+      "type": "object",
+      "properties": {
+        "_id": { "type": "string" },
+        "eventId": { "type": "string" },
+        "userId": { "type": "string" },
+        "organizerId": { "type": "string" },
+        "tickets": { "type": "array" },
+        "attendees": { "type": "array" },
+        "totalAmount": { "type": "number" },
+        "paymentId": { "type": "string" },
+        "promoCode": { "type": "string" },
+        "discount": { "type": "number" },
+        "qrCode": { "type": "string" },
+        "status": { "type": "string", "enum": ["booked", "cancelled"] },
+        "isCheckedIn": { "type": "boolean" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["_id", "eventId", "userId", "tickets", "totalAmount", "status"]
+    },
+    "PromoCode": {
+      "title": "Promo Code Definition",
+      "description": "Promotional codes offering flat or percentage discounts for single or all events.",
+      "type": "object",
+      "properties": {
+        "_id": { "type": "string" },
+        "eventId": { "type": "string" },
+        "code": { "type": "string" },
+        "discountType": { "type": "string", "enum": ["percentage", "flat"] },
+        "discountValue": { "type": "number" },
+        "usageLimit": { "type": "integer" },
+        "usedCount": { "type": "integer" },
+        "expiryDate": { "type": "string" },
+        "isActive": { "type": "boolean" }
+      },
+      "required": ["_id", "code", "discountType", "discountValue", "isActive"]
+    },
+    "Review": {
+      "title": "Event Review",
+      "description": "Aggregated user review scores and textual comments.",
+      "type": "object",
+      "properties": {
+        "_id": { "type": "string" },
+        "eventId": { "type": "string" },
+        "userId": { "type": "string" },
+        "name": { "type": "string" },
+        "avatar": { "type": "string" },
+        "rating": { "type": "integer" },
+        "comment": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["_id", "eventId", "userId", "rating", "comment"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "Core storage for user profile metadata."
+    },
+    "/events/{eventId}": {
+      "schema": "Event",
+      "description": "Global event lists catalog indexed by categories, locations, and schedules."
+    },
+    "/registrations/{registrationId}": {
+      "schema": "Registration",
+      "description": "Bespoke transaction ledger locking bookings, ticket classes, QR tickets, and checked-in flags."
+    },
+    "/promocodes/{promoCodeId}": {
+      "schema": "PromoCode",
+      "description": "Platform global promo structures."
+    },
+    "/reviews/{reviewId}": {
+      "schema": "Review",
+      "description": "Bespoke review entries linking attendee ratings and descriptive logs."
+    }
+  }
+}

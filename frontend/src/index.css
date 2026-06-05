@@ -1,0 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Italiana&family=Poppins:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Italiana", serif;
+  --font-sans: "Poppins", sans-serif;
+  
+  --color-bg-dark: #080808;
+  --color-primary: #EC4899;
+  --color-accent: #8B5CF6;
+  --color-gold: #F59E0B;
+}
+
+body {
+  background-color: #080808;
+  color: #f3f4f6;
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6, .italic-brand {
+  font-family: var(--font-serif);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #080808;
+}
+::-webkit-scrollbar-thumb {
+  background: #222;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #EC4899;
+}
+
+/* Ticket tear styling helper */
+.ticket-edge-left {
+  background-image: radial-gradient(circle at 0px 8px, transparent 8px, #111 8px);
+  background-size: 100% 20px;
+}
+
+.ticket-edge-right {
+  background-image: radial-gradient(circle at 100% 8px, transparent 8px, #111 8px);
+  background-size: 100% 20px;
+}
